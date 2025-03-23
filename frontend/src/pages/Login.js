@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "https://notesapp-production-87cb.up.railway.app";
+
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -12,15 +14,12 @@ const Login = () => {
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		try {
-			const { data } = await axios.post(
-				"http://localhost:5000/api/users/login",
-				{ email, password }
-			);
+			const { data } = await axios.post(`${API_BASE_URL}/api/users/login`, { email, password });
 			localStorage.setItem("token", data.token);
-			alert("Login Successful!");
+			alert("✅ Login Successful!");
 			navigate("/notes");
 		} catch (error) {
-			alert("Invalid credentials!");
+			alert(error.response?.data?.message || "❌ Invalid credentials!");
 		}
 	};
 
