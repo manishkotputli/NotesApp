@@ -40,7 +40,7 @@ const Notes = () => {
 				setIsAdmin(decodedToken.role === "admin");
 
 				// ✅ Fetch Notes
-				const { data } = await axios.get("http://localhost:5000/api/notes", {
+				const { data } = await axios.get("https://notesapp-production-87cb.up.railway.app/api/notes", {
 					headers: { Authorization: `Bearer ${token}` },
 				});
 
@@ -99,7 +99,7 @@ const Notes = () => {
 								<div className="card-body">
 									<h5 className="card-title">{note.title}</h5>
 									<a
-										href={`http://localhost:5000/${note.fileUrl.replace(
+										href={`https://notesapp-production-87cb.up.railway.app/${note.fileUrl.replace(
 											/^\/+/,
 											""
 										)}`}
