@@ -60,7 +60,7 @@ const UploadNote = () => {
 			}
 
 			const response = await axios.post(
-				"http://localhost:5000/api/notes/upload",
+				"https://notesapp-production-87cb.up.railway.app/api/notes/upload",
 				formData,
 				{
 					headers: {
