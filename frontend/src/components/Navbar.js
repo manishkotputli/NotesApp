@@ -1,5 +1,4 @@
 /** @format */
-
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -19,14 +18,21 @@ const Navbar = () => {
 				>
 					📚 NotesApp
 				</Link>
+
+				{/* ✅ Corrected Navbar Toggler */}
 				<button
 					className="navbar-toggler"
 					type="button"
 					data-bs-toggle="collapse"
 					data-bs-target="#navbarNav"
+					aria-controls="navbarNav"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
 				>
 					<span className="navbar-toggler-icon"></span>
 				</button>
+
+				{/* ✅ Navbar Collapse */}
 				<div
 					className="collapse navbar-collapse"
 					id="navbarNav"
@@ -34,7 +40,7 @@ const Navbar = () => {
 					<ul className="navbar-nav ms-auto">
 						<li className="nav-item">
 							<Link
-								className="nav-link text-white fw-semibold"
+								className="nav-link fw-semibold text-white"
 								to="/"
 							>
 								🏠 Home
@@ -42,7 +48,7 @@ const Navbar = () => {
 						</li>
 						<li className="nav-item">
 							<Link
-								className="nav-link text-white fw-semibold"
+								className="nav-link fw-semibold text-white"
 								to="/contact"
 							>
 								📞 Contact Us
@@ -50,7 +56,7 @@ const Navbar = () => {
 						</li>
 						<li className="nav-item">
 							<Link
-								className="nav-link text-white fw-semibold"
+								className="nav-link fw-semibold text-white"
 								to="/support"
 							>
 								🛠 Support
@@ -58,7 +64,7 @@ const Navbar = () => {
 						</li>
 						<li className="nav-item">
 							<Link
-								className="nav-link text-white fw-semibold"
+								className="nav-link fw-semibold text-white"
 								to="/login"
 							>
 								🔑 Login
