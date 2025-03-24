@@ -9,7 +9,12 @@ const LandingPage = () => {
 		<div className="landing-container">
 			{/* Hero Section */}
 			<div className="hero">
-				
+				<img
+					src="/landingPage.webp"
+					alt="SGI"
+					className="hero-image"
+						width="100px"
+				/>
 				<h1>Welcome to SGI</h1>
 				<p>
 					Join the best online study group and collaborate with top students.
