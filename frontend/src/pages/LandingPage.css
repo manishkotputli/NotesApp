@@ -7,9 +7,9 @@
 
 /* ✅ Hero Section */
 .hero {
-    background: #0073e6;
     color: white;
     padding: 50px 20px;
+    background: #0073e6;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -17,27 +17,21 @@
     text-align: center;
 }
 
-.hero-image {
-    width: 90%;
-    max-width: 800px;
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
     margin-bottom: 20px;
-    border-radius: 10px;
 }
 
-.btn {
-    display: inline-block;
+.hero-image {
+    width: 100%;
+    max-width: 800px;
     margin-top: 20px;
-    padding: 12px 24px;
-    background: #ff6600;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s ease;
-}
-
-.btn:hover {
-    background: #cc5500;
+    border-radius: 10px;
 }
 
 /* ✅ Features Section */
@@ -80,11 +74,15 @@
     }
 
     .hero h1 {
-        font-size: 24px;
+        font-size: 28px;
     }
 
     .hero p {
         font-size: 16px;
+    }
+
+    .hero-image {
+        width: 90%;
     }
 
     .features {
