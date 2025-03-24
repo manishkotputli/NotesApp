@@ -10,7 +10,7 @@ const LandingPage = () => {
 			{/* Hero Section */}
 			<div className="hero">
 				<img
-					src="/sgi_landing.png"
+					src="/frontend/public/landingPage.webp"
 					alt="SGI"
 					className="hero-image"
 				/>
