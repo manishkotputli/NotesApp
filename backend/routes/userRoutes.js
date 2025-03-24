@@ -6,19 +6,22 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const router = express.Router();
 
+// Admin Code (Hardcoded for now)
+const ADMIN_SECRET_CODE = "MS01";
+
 // Register User
 router.post("/register", async (req, res) => {
 	try {
-		const { name, email, password, role } = req.body;
+		const { name, email, password, role, adminCode } = req.body;
 
 		// Check if all fields are provided
 		if (!name || !email || !password || !role) {
 			return res.status(400).json({ message: "All fields are required" });
 		}
 
-		// Validate role (should be either "admin" or "student")
-		if (role !== "admin" && role !== "student") {
-			return res.status(400).json({ message: "Invalid role" });
+		// Validate role
+		if (role === "admin" && adminCode !== ADMIN_SECRET_CODE) {
+			return res.status(400).json({ message: "Invalid Admin Code" });
 		}
 
 		const existingUser = await User.findOne({ email });
@@ -33,7 +36,7 @@ router.post("/register", async (req, res) => {
 		await user.save();
 		res.json({ message: "✅ User registered successfully", user });
 	} catch (error) {
-		console.error("Error in Register API:", error); // ✅ Logs error in console
+		console.error("Error in Register API:", error);
 		res
 			.status(500)
 			.json({ message: "❌ Internal Server Error", error: error.message });
@@ -45,7 +48,6 @@ router.post("/login", async (req, res) => {
 	try {
 		const { email, password } = req.body;
 
-		// Check if email and password are provided
 		if (!email || !password) {
 			return res
 				.status(400)
@@ -63,7 +65,6 @@ router.post("/login", async (req, res) => {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
 
-		// Check if JWT_SECRET is set
 		if (!process.env.JWT_SECRET) {
 			console.error("JWT_SECRET is missing in .env file!");
 			return res
@@ -84,7 +85,7 @@ router.post("/login", async (req, res) => {
 				id: user._id,
 				name: user.name,
 				email: user.email,
-				role: user.role, // Include role in response
+				role: user.role,
 			},
 		});
 	} catch (error) {
