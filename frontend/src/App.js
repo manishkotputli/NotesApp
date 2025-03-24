@@ -9,21 +9,16 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Notes from "./pages/Notes";
 import UploadNote from "./pages/UploadNote";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
 	return (
 		<Router>
 			<Navbar />
 			<Routes>
-				{/* Default Home Route */}
 				<Route
 					path="/"
-					element={
-						<h1>
-							{/* eslint-disable-next-line jsx-a11y/no-distracting-elements */}
-							<marquee>Welcome to Notes App </marquee>
-						</h1>
-					}
+					element={<LandingPage />}
 				/>
 				<Route
 					path="/login"
@@ -40,8 +35,7 @@ function App() {
 				<Route
 					path="/upload-note"
 					element={<UploadNote />}
-				/>{" "}
-				{/* ✅ Fixed Route */}
+				/>
 			</Routes>
 		</Router>
 	);
