@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // ✅ Correct JWT Decode Import
 
+const BASE_URL = "https://notesapp-production-87cb.up.railway.app/api";
+
 const Notes = () => {
 	const [notes, setNotes] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -16,7 +18,6 @@ const Notes = () => {
 		const fetchNotes = async () => {
 			const token = localStorage.getItem("token");
 
-			// ✅ Token Check
 			if (!token) {
 				alert("⚠️ Please login to view notes.");
 				navigate("/login");
@@ -24,7 +25,6 @@ const Notes = () => {
 			}
 
 			try {
-				// ✅ Decode JWT Token & Check Expiry
 				const decodedToken = jwtDecode(token);
 				console.log("🔹 Decoded Token:", decodedToken);
 
@@ -36,11 +36,9 @@ const Notes = () => {
 					return;
 				}
 
-				// ✅ Check If User is Admin
 				setIsAdmin(decodedToken.role === "admin");
 
-				// ✅ Fetch Notes
-				const { data } = await axios.get("https://notesapp-production-87cb.up.railway.app/api/notes", {
+				const { data } = await axios.get(`${BASE_URL}/notes`, {
 					headers: { Authorization: `Bearer ${token}` },
 				});
 
@@ -48,15 +46,12 @@ const Notes = () => {
 				setNotes(data);
 			} catch (err) {
 				console.error("❌ Error fetching notes:", err);
-
-				// ✅ Check for Unauthorized Access (403)
 				if (err.response && err.response.status === 403) {
 					alert("⚠️ Access denied! You are not authorized.");
 					localStorage.removeItem("token");
 					navigate("/login");
 					return;
 				}
-
 				setError(err.response?.data?.message || "❌ Error fetching notes.");
 			} finally {
 				setLoading(false);
@@ -66,11 +61,28 @@ const Notes = () => {
 		fetchNotes();
 	}, [navigate]);
 
+	// ✅ DELETE NOTE FUNCTION
+	const handleDelete = async (noteId) => {
+		if (!window.confirm("⚠️ Are you sure you want to delete this note?")) return;
+
+		try {
+			const token = localStorage.getItem("token");
+			await axios.delete(`${BASE_URL}/notes/${noteId}`, {
+				headers: { Authorization: `Bearer ${token}` },
+			});
+
+			alert("✅ Note deleted successfully!");
+			setNotes(notes.filter((note) => note._id !== noteId)); // Remove from UI
+		} catch (error) {
+			console.error("❌ Error deleting note:", error);
+			alert("❌ Failed to delete note. Please try again.");
+		}
+	};
+
 	return (
 		<div className="container mt-5">
 			<h2 className="text-center mb-4">📚 Notes</h2>
 
-			{/* ✅ Show Upload Button for Admins */}
 			{isAdmin && (
 				<div className="text-center mb-3">
 					<button
@@ -99,16 +111,23 @@ const Notes = () => {
 								<div className="card-body">
 									<h5 className="card-title">{note.title}</h5>
 									<a
-										href={`https://notesapp-production-87cb.up.railway.app/${note.fileUrl.replace(
-											/^\/+/,
-											""
-										)}`}
+										href={`${BASE_URL}/${note.fileUrl.replace(/^\/+/, "")}`}
 										target="_blank"
 										rel="noopener noreferrer"
 										className="btn btn-primary w-100 mt-2"
 									>
 										📥 Download
 									</a>
+
+									{/* ✅ Delete Button for Admin */}
+									{isAdmin && (
+										<button
+											onClick={() => handleDelete(note._id)}
+											className="btn btn-danger w-100 mt-2"
+										>
+											🗑️ Delete
+										</button>
+									)}
 								</div>
 							</div>
 						</div>
